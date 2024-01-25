@@ -25,3 +25,4 @@ dist-ssr
 instruction.md
 *.instruction.md
 .instruction.md
+.env
