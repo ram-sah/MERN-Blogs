@@ -10,7 +10,7 @@ return (
     <>
     <Navbar className='border-b-2 md:flex md:items-center md:justify-between'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold '>
-        <span className='px-3 py-2 bg-gradient-to-r from-red-400 via-purple-400 to-blue-400 rounded-lg text-white'>Ram's</span>
+        <span className='px-3 py-2 bg-gradient-to-r from-yellow-500 via-purple-400 to-blue-400 rounded-lg text-white'>Ram's</span>
         Blogs
       </Link>
       <form>
