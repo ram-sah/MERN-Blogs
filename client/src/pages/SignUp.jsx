@@ -43,7 +43,7 @@ const SignUp = () => {
   return (
     <>
       <div className="min-h-screen mt-20 ">
-        <div className="main flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
+        <div className="main flex p-3 max-w-4xl mx-auto flex-col md:flex-row md:items-center gap-5">
           <div className="left flex-1">
             <Link
               to="/"
@@ -52,7 +52,7 @@ const SignUp = () => {
               <span className="px-8 py-2 bg-gradient-to-r from-blue-500 via-purple-400 to-blue-400 rounded-lg text-white">
                 Ram's
               </span>
-              Blogs
+              Blog
             </Link>
             <div className="text-sm mt-6" ><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
               <p className="my-1">Signup with your email or with google account.</p></div>

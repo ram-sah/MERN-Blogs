@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+import FooterComponent from './components/FooterComponent'
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => {
     <Route path="/sign-in" element={<SignIn />} />
     <Route path="/sign-up" element={<SignUp />} />
     </Routes>
+    <FooterComponent />
     </BrowserRouter>
   )
 }
