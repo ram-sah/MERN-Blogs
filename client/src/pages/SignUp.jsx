@@ -32,7 +32,7 @@ const SignUp = () => {
         return setErrorMessage(data.message);
       }
       setLoading(false);
-      if(res.ok){
+      if (res.ok) {
         navigate('/sign-in')
       }
     } catch (error) {
@@ -58,6 +58,17 @@ const SignUp = () => {
               <p className="my-1">Signup with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
+            
+            {/* alert error on blank submit */}
+            <div>
+              {
+                errorMessage && (
+                  <Alert className="mb-10" color="failure">
+                    {errorMessage}
+                  </Alert>
+                )
+              }
+            </div>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <div className="">
                 <Label value="Your username" />
@@ -83,12 +94,12 @@ const SignUp = () => {
                   id="password" onChange={handleChange}
                 />
               </div>
-              <Button gradientDuoTone='purpleToBlue' type="submit" disabled= {loading}>
+              <Button gradientDuoTone='purpleToBlue' type="submit" disabled={loading}>
                 {
                   loading ? (
                     <>
-                    <Spinner size="sm" />
-                    <span className="pl-5">Loading...</span>
+                      <Spinner size="sm" />
+                      <span className="pl-5">Loading...</span>
                     </>
                   ) : ('Sign Up')
                 }
@@ -98,13 +109,7 @@ const SignUp = () => {
               <span >Have an account ?</span>
               <Link to='/sign-in' className="text-blue-500"> Sign In</Link>
             </div>
-            {
-              errorMessage && (
-                <Alert className="mt-4" color="failure">
-                  {errorMessage}
-                </Alert>
-              )
-            }
+
           </div>
         </div>
       </div>

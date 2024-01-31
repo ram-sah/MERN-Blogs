@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({})
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [loading, setLoading] = useState(false)
+  // const [errorMessage, setErrorMessage] = useState(null)
+  // const [loading, setLoading] = useState(false)
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,11 +21,12 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage("Each fields must be fill out !");
+      return dispatch(signInFailure("Each fields must be fill out !"));
     }
     try {
-      setErrorMessage(null);
-      setLoading(true);
+      // setErrorMessage(null);
+      // setLoading(true);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin',
         {
           method: 'POST',
@@ -29,15 +35,17 @@ const SignIn = () => {
         });
       const data = await res.json();
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);
-      if(res.ok){
+      // setLoading(false);
+      if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate('/')
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      // setErrorMessage(error.message);
+      // setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   }
   return (
@@ -58,6 +66,16 @@ const SignIn = () => {
               <p className="my-1">SignIn with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
+            {/* alert error on blank submit */}
+            <div >
+              {
+                errorMessage && (
+                  <Alert className="mb-10" color="failure">
+                    {errorMessage}
+                  </Alert>
+                )
+              }
+            </div>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
               <div className="">
@@ -76,12 +94,12 @@ const SignIn = () => {
                   id="password" onChange={handleChange}
                 />
               </div>
-              <Button gradientDuoTone='purpleToBlue' type="submit" disabled= {loading}>
+              <Button gradientDuoTone='purpleToBlue' type="submit" disabled={loading}>
                 {
                   loading ? (
                     <>
-                    <Spinner size="sm" />
-                    <span className="pl-5">Loading...</span>
+                      <Spinner size="sm" />
+                      <span className="pl-5">Loading...</span>
                     </>
                   ) : ('Sign In')
                 }
@@ -91,13 +109,6 @@ const SignIn = () => {
               <span >Don't have an account ?</span>
               <Link to='/sign-up' className="text-blue-500"> Sign Up</Link>
             </div>
-            {
-              errorMessage && (
-                <Alert className="mt-4" color="failure">
-                  {errorMessage}
-                </Alert>
-              )
-            }
           </div>
         </div>
       </div>
