@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({})
@@ -10,7 +11,7 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() })
-    console.log(formData)
+    // console.log(formData)
   }
 
   const handleSubmit = async (e) => {
@@ -58,7 +59,7 @@ const SignUp = () => {
               <p className="my-1">Signup with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
-            
+
             {/* alert error on blank submit */}
             <div>
               {
@@ -104,6 +105,7 @@ const SignUp = () => {
                   ) : ('Sign Up')
                 }
               </Button>
+              <OAuth />
             </form>
             <div className="my-2 text-sm gap-2 flex">
               <span >Have an account ?</span>
