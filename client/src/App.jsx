@@ -19,11 +19,9 @@ const App = () => {
         <Route path="/about" element={<About />} />
 
         {/* Using PrivateRoute to protect the dashboard route */}
-        <Route path="/dashboard/*" element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>}
-        />
+        <Route element={<PrivateRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
         <Route path="/projects" element={<Projects />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />

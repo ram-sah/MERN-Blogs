@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,49 +6,47 @@ import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSli
 import OAuth from "../components/OAuth";
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({})
-  // const [errorMessage, setErrorMessage] = useState(null)
-  // const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Cleanup error message on component unmount
+    return () => {
+      dispatch(signInFailure(null));
+    };
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() })
-    console.log(formData)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return dispatch(signInFailure("Each fields must be fill out !"));
+      return dispatch(signInFailure("Each field must be filled out!"));
     }
     try {
-      // setErrorMessage(null);
-      // setLoading(true);
       dispatch(signInStart());
-      const res = await fetch('/api/auth/signin',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        });
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
       const data = await res.json();
       if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
-      // setLoading(false);
       if (res.ok) {
         dispatch(signInSuccess(data));
-        navigate('/')
+        navigate('/');
       }
     } catch (error) {
-      // setErrorMessage(error.message);
-      // setLoading(false);
       dispatch(signInFailure(error.message));
     }
   }
+
   return (
     <>
       <div className="min-h-screen mt-20 ">
@@ -63,19 +61,17 @@ const SignIn = () => {
               </span>
               Blog
             </Link>
-            <div className="text-sm mt-6" ><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
+            <div className="text-sm mt-6"><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
               <p className="my-1">SignIn with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
             {/* alert error on blank submit */}
-            <div >
-              {
-                errorMessage && (
-                  <Alert className="mb-10" color="failure">
-                    {errorMessage}
-                  </Alert>
-                )
-              }
+            <div>
+              {errorMessage && (
+                <Alert className="mb-10" color="failure">
+                  {errorMessage}
+                </Alert>
+              )}
             </div>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
@@ -96,14 +92,12 @@ const SignIn = () => {
                 />
               </div>
               <Button gradientDuoTone='purpleToBlue' type="submit" disabled={loading}>
-                {
-                  loading ? (
-                    <>
-                      <Spinner size="sm" />
-                      <span className="pl-5">Loading...</span>
-                    </>
-                  ) : ('Sign In')
-                }
+                {loading ? (
+                  <>
+                    <Spinner size="sm" />
+                    <span className="pl-5">Loading...</span>
+                  </>
+                ) : ('Sign In')}
               </Button>
               <OAuth />
             </form>
