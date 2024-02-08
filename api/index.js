@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
-
+import cookieParser from 'cookie-parser';
 // Load environment variables from a .env file
 dotenv.config();
 
@@ -22,7 +22,8 @@ const app = express();
 
 // Enable JSON body parsing for incoming requests
 app.use(express.json());
-
+// enabling to parse cookies from incoming HTTP requests
+app.use(cookieParser());
 // Start the server on port 3000
 app.listen(3000, () => {
     console.log('Server is running on port 3000!');
