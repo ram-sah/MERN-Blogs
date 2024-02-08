@@ -12,6 +12,8 @@ import { app } from "../firebase";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css"; // Styles for circular progress bar
+import { updateStart, updateFailure, updateSuccess } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
 
 // Functional component for managing user profile in a dashboard
 const DashProfile = () => {
@@ -24,7 +26,11 @@ const DashProfile = () => {
   const filePickerRef = useRef(); // Reference to file input element
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null); // Upload progress of image
   const [imageFileUploadError, setImageFileUploadError] = useState(null); // Error message during image upload
-const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+  const [updateUserError, setUpdateUserError] = useState(null)
   // Function to handle selection of image file
   const handleImage = (e) => {
     const file = e.target.files[0]; // Retrieve selected file
@@ -32,7 +38,7 @@ const [imageFileUploading, setImageFileUploading] = useState(false);
       // Set selected image file and its URL
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
-      console.log('here--', imageFile, 'and' , imageFileUrl)
+      // console.log('here--', imageFile, 'and', imageFileUrl)
     }
   };
 
@@ -62,7 +68,7 @@ const [imageFileUploading, setImageFileUploading] = useState(false);
       },
       (error) => {
         // Handle upload error
-        const getFileSize = (imageFile.size / (1024*1024)).toFixed()//convert uploaded file's size in to MB and round after zero
+        const getFileSize = (imageFile.size / (1024 * 1024)).toFixed()//convert uploaded file's size in to MB and round after zero
         setImageFileUploadError(
           `🚫 Could not upload ${getFileSize}MB image, (File must be less than 2MB)`
         );
@@ -76,17 +82,57 @@ const [imageFileUploading, setImageFileUploading] = useState(false);
         // On successful upload, get the download URL and update state
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL); // Set image URL
-
+          setFormData({ ...formData, profilePicture: downloadURL });
+          setImageFileUploading(false);
         });
       }
     );
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  // console.log(formData)
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+
+    if(Object.keys(formData).length === 0){
+      setUpdateUserError('No changes made');
+      return;
+    }
+    if(imageFileUploading){
+      setUpdateUserError("Please wait to complete image upload");
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if(!res.ok){
+        dispatch(updateFailure(data.message));
+        setUpdateUserError(data.message);
+      }else{
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess("👍 User's profile updated successfully");
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message)
+    }
+  }
   // Return JSX for rendering user profile form and UI
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="text-center my-8 font-bold text-2xl">Profile</h1>
-      <form className="flex flex-col gap-3">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         {/* File input for selecting image */}
         <input
           type="file"
@@ -115,9 +161,8 @@ const [imageFileUploading, setImageFileUploading] = useState(false);
                   left: 0,
                 },
                 path: {
-                  stroke: `rgba(40,140, 200, ${
-                    imageFileUploadProgress / 100
-                  })`,
+                  stroke: `rgba(40,140, 200, ${imageFileUploadProgress / 100
+                    })`,
                 },
               }}
             />
@@ -126,31 +171,39 @@ const [imageFileUploading, setImageFileUploading] = useState(false);
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt="user"
-            className={`w-full h-full object-cover border-gray-100 rounded-full border-8 ${
-              imageFileUploadProgress &&
+            className={`w-full h-full object-cover border-gray-100 rounded-full border-8 ${imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               "opacity-50"
-            }`}
+              }`}
           />
         </div>
         {/* Display error message during image upload */}
         {imageFileUploadError && (
           <Alert color="failure">{imageFileUploadError}</Alert>
         )}
+
+        {updateUserSuccess && (
+            <Alert color= "success" className="mb-4">{updateUserSuccess} </Alert>
+          )}
+
+          {updateUserError && (
+            <Alert color= "failure" className="mb-4">{updateUserError} </Alert>
+          )}
+
         {/* Text inputs for username, email, and password */}
         <TextInput
           id="username"
           type="text"
           placeholder="username"
-          defaultValue={currentUser.username}
+          defaultValue={currentUser.username} onChange={handleChange}
         />
         <TextInput
           id="email"
           type="text"
           placeholder="email"
-          defaultValue={currentUser.email}
+          defaultValue={currentUser.email} onChange={handleChange}
         />
-        <TextInput id="password" type="password" placeholder="password" />
+        <TextInput id="password" type="password" placeholder="password" onChange={handleChange} />
         {/* Button for submitting profile changes */}
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Submit
