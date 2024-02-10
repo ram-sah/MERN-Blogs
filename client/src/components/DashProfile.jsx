@@ -1,7 +1,7 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, TextInput } from "flowbite-react"; // UI components library
+import { Alert, Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react"; // UI components library
+import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import {
   getStorage,
   ref,
@@ -12,13 +12,21 @@ import { app } from "../firebase";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css"; // Styles for circular progress bar
-import { updateStart, updateFailure, updateSuccess } from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
+import {
+  updateStart,
+  updateFailure,
+  updateSuccess,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  signOutUserSuccess,
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 // Functional component for managing user profile in a dashboard
 const DashProfile = () => {
   // Retrieve current user data from Redux store
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
 
   // State variables for managing image upload
   const [imageFile, setImageFile] = useState(null); // Uploaded image file
@@ -30,7 +38,9 @@ const DashProfile = () => {
   const dispatch = useDispatch();
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
-  const [updateUserError, setUpdateUserError] = useState(null)
+  const [updateUserError, setUpdateUserError] = useState(null);
+  const [showModel, setShowModel] = useState(false);
+
   // Function to handle selection of image file
   const handleImage = (e) => {
     const file = e.target.files[0]; // Retrieve selected file
@@ -49,6 +59,7 @@ const DashProfile = () => {
     }
   }, [imageFile]);
 
+
   // Function to upload the selected image file to Firebase storage.
   const uploadImage = async () => {
     setImageFileUploading(true);
@@ -63,12 +74,13 @@ const DashProfile = () => {
       "state_changed",
       (snapshot) => {
         // Calculate and update upload progress
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadProgress(progress.toFixed(0)); // Update upload progress state
       },
       (error) => {
         // Handle upload error
-        const getFileSize = (imageFile.size / (1024 * 1024)).toFixed()//convert uploaded file's size in to MB and round after zero
+        const getFileSize = (imageFile.size / (1024 * 1024)).toFixed(); //convert uploaded file's size in to MB and round after zero
         setImageFileUploadError(
           `🚫 Could not upload ${getFileSize}MB image, (File must be less than 2MB)`
         );
@@ -84,6 +96,7 @@ const DashProfile = () => {
           setImageFileUrl(downloadURL); // Set image URL
           setFormData({ ...formData, profilePicture: downloadURL });
           setImageFileUploading(false);
+          setImageFileUploadProgress(null);
         });
       }
     );
@@ -93,41 +106,79 @@ const DashProfile = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   // console.log(formData)
-  const handleSubmit = async(e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
 
-    if(Object.keys(formData).length === 0){
-      setUpdateUserError('No changes made');
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError("Nothing to update!");
       return;
     }
-    if(imageFileUploading){
+    if (imageFileUploading) {
       setUpdateUserError("Please wait to complete image upload");
       return;
     }
     try {
       dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
-      }else{
+        // setUpdateUserError(data.message);
+      } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess("👍 User's profile updated successfully");
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message)
+      // setUpdateUserError(error.message);
+    }
+  };
+
+  //delete user
+  const handleDeleteUser = async () => {
+    setShowModel(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
     }
   }
+  //Sign out user
+  const handleSignOut = async () => {
+
+    try {
+      const res = await fetch('api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutUserSuccess(data));
+      }
+    } catch (error) {
+      console.log(data.message);
+    }
+  }
+
   // Return JSX for rendering user profile form and UI
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -161,8 +212,7 @@ const DashProfile = () => {
                   left: 0,
                 },
                 path: {
-                  stroke: `rgba(40,140, 200, ${imageFileUploadProgress / 100
-                    })`,
+                  stroke: `rgba(40,140, 200, ${imageFileUploadProgress / 100})`,
                 },
               }}
             />
@@ -183,27 +233,63 @@ const DashProfile = () => {
         )}
 
         {updateUserSuccess && (
-            <Alert color= "success" className="mb-4">{updateUserSuccess} </Alert>
-          )}
+          <Alert color="success" className="mb-4"> {updateUserSuccess} </Alert>
+        )}
 
-          {updateUserError && (
-            <Alert color= "failure" className="mb-4">{updateUserError} </Alert>
-          )}
+        {updateUserError && (
+          <Alert color="failure" className="mb-4"> {updateUserError} </Alert>
+        )}
+
+        {error && (
+          <Alert color="failure" className="mb-4">
+            {error}
+          </Alert>
+        )}
+        {/* show delete form, Modal on click  */}
+        <Modal
+          show={showModel}
+          onClose={() => setShowModel(false)}
+          popup
+          size="md"
+        >
+          <ModalHeader />
+          <ModalBody>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="w-10 h-10 mx-auto mb-4 text-red-500 " />
+              <h2 className="mb-5 text-gray-500">Are you sure want to delete your account ? </h2>
+              <div className="flex justify-center gap-5">
+                <Button color="failure" onClick={handleDeleteUser}>
+                  Yes, I'm sure !
+                </Button>
+                <Button color="gray" onClick={() => setShowModel(false)}>
+                  No, cancel it.
+                </Button>
+              </div>
+            </div>
+          </ModalBody>
+        </Modal>
 
         {/* Text inputs for username, email, and password */}
         <TextInput
           id="username"
           type="text"
           placeholder="username"
-          defaultValue={currentUser.username} onChange={handleChange}
+          defaultValue={currentUser.username}
+          onChange={handleChange}
         />
         <TextInput
           id="email"
           type="text"
           placeholder="email"
-          defaultValue={currentUser.email} onChange={handleChange}
+          defaultValue={currentUser.email}
+          onChange={handleChange}
         />
-        <TextInput id="password" type="password" placeholder="password" onChange={handleChange} />
+        <TextInput
+          id="password"
+          type="password"
+          placeholder="password"
+          onChange={handleChange}
+        />
         {/* Button for submitting profile changes */}
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Submit
@@ -211,10 +297,13 @@ const DashProfile = () => {
       </form>
       {/* Links for deleting account and signing out */}
       <div className="text-red-600 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={() => setShowModel(true)} className="cursor-pointer">
+          Delete Account
+        </span>
+        <span onClick={handleSignOut} className="cursor-pointer">Sign Out</span>
       </div>
     </div>
+
   );
 };
 
