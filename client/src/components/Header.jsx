@@ -13,8 +13,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
 
-   //Sign out user
-   const handleSignOut = async () => {
+  //Sign out user
+  const handleSignOut = async () => {
 
     try {
       const res = await fetch('/api/user/signout', {
@@ -52,9 +52,9 @@ const Header = () => {
           />
         </form>
         <Button
-        className="w-12 h-10 lg:hidden"
-        color="gray"
-        pill>
+          className="w-12 h-10 lg:hidden"
+          color="gray"
+          pill>
           <AiOutlineSearch />
         </Button>
         <div className="flex gap-2 md:order-2">
@@ -71,7 +71,7 @@ const Header = () => {
               arrowIcon={false}
               inline
               label={
-                <Avatar alt="user" img={currentUser.profilePicture} rounded />
+                <Avatar alt="user" img={currentUser.profilePicture} rounded className="w-10 h-10 border-2 overflow-hidden rounded-full " />
               }
             >
               <Dropdown.Header>

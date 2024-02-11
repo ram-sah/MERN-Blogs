@@ -1,7 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react"; // UI components library
-import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  TextInput,
+} from "flowbite-react"; // UI components library
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import {
   getStorage,
   ref,
@@ -26,7 +33,7 @@ import { useDispatch } from "react-redux";
 // Functional component for managing user profile in a dashboard
 const DashProfile = () => {
   // Retrieve current user data from Redux store
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
 
   // State variables for managing image upload
   const [imageFile, setImageFile] = useState(null); // Uploaded image file
@@ -58,7 +65,6 @@ const DashProfile = () => {
       uploadImage(); // Upload the image
     }
   }, [imageFile]);
-
 
   // Function to upload the selected image file to Firebase storage.
   const uploadImage = async () => {
@@ -149,7 +155,7 @@ const DashProfile = () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -160,13 +166,12 @@ const DashProfile = () => {
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
   //Sign out user
   const handleSignOut = async () => {
-
     try {
-      const res = await fetch('api/user/signout', {
-        method: 'POST',
+      const res = await fetch("api/user/signout", {
+        method: "POST",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -177,7 +182,7 @@ const DashProfile = () => {
     } catch (error) {
       console.log(data.message);
     }
-  }
+  };
 
   // Return JSX for rendering user profile form and UI
   return (
@@ -221,10 +226,11 @@ const DashProfile = () => {
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt="user"
-            className={`w-full h-full object-cover border-gray-100 rounded-full border-8 ${imageFileUploadProgress &&
+            className={`w-full h-full object-cover border-gray-300 rounded-full border-4 ${
+              imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               "opacity-50"
-              }`}
+            }`}
           />
         </div>
         {/* Display error message during image upload */}
@@ -233,11 +239,17 @@ const DashProfile = () => {
         )}
 
         {updateUserSuccess && (
-          <Alert color="success" className="mb-4"> {updateUserSuccess} </Alert>
+          <Alert color="success" className="mb-4">
+            {" "}
+            {updateUserSuccess}{" "}
+          </Alert>
         )}
 
         {updateUserError && (
-          <Alert color="failure" className="mb-4"> {updateUserError} </Alert>
+          <Alert color="failure" className="mb-4">
+            {" "}
+            {updateUserError}{" "}
+          </Alert>
         )}
 
         {error && (
@@ -256,7 +268,9 @@ const DashProfile = () => {
           <ModalBody>
             <div className="text-center">
               <HiOutlineExclamationCircle className="w-10 h-10 mx-auto mb-4 text-red-500 " />
-              <h2 className="mb-5 text-gray-500">Are you sure want to delete your account ? </h2>
+              <h2 className="mb-5 text-gray-500">
+                Are you sure want to delete your account ?{" "}
+              </h2>
               <div className="flex justify-center gap-5">
                 <Button color="failure" onClick={handleDeleteUser}>
                   Yes, I'm sure !
@@ -291,8 +305,13 @@ const DashProfile = () => {
           onChange={handleChange}
         />
         {/* Button for submitting profile changes */}
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Submit
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToBlue"
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
       </form>
       {/* Links for deleting account and signing out */}
@@ -300,10 +319,11 @@ const DashProfile = () => {
         <span onClick={() => setShowModel(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span onClick={handleSignOut} className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
     </div>
-
   );
 };
 
