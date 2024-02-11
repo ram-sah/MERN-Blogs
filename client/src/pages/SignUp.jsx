@@ -56,7 +56,7 @@ const SignUp = () => {
               </span>
               Blog
             </Link>
-            <div className="text-sm mt-6" ><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
+            <div className="text-sm mt-6" ><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Sharp your passions, your way...</h1>
               <p className="my-1">Signup with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
