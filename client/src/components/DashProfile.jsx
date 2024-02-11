@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
 import {
   Alert,
   Button,
@@ -226,11 +227,10 @@ const DashProfile = () => {
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt="user"
-            className={`w-full h-full object-cover border-gray-300 rounded-full border-4 ${
-              imageFileUploadProgress &&
+            className={`w-full h-full object-cover border-gray-300 rounded-full border-4 ${imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               "opacity-50"
-            }`}
+              }`}
           />
         </div>
         {/* Display error message during image upload */}
@@ -313,6 +313,19 @@ const DashProfile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </Button>
+
+        {/* For Admin to create-post */}
+        {
+          currentUser.isAdmin && (
+            <Link to={'/create-post'}>
+              <Button type="submit"
+                gradientDuoTone="purpleToBlue"
+                className="w-full"
+                outline>Create a post </Button>
+            </Link>
+          )
+        }
+
       </form>
       {/* Links for deleting account and signing out */}
       <div className="text-red-600 flex justify-between mt-5">

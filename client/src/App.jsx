@@ -9,6 +9,8 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import FooterComponent from './components/FooterComponent';
 import PrivateRoute from './components/PrivateRoute';
+import AdminPrivateRoute from './components/AdminPrivateRoute';
+import { CreatePost } from './pages/CreatePost';
 
 const App = () => {
   return (
@@ -17,14 +19,18 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
 
         {/* Using PrivateRoute to protect the dashboard route */}
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        {/* Using PrivateRoute to protect the create route */}
+        <Route element={<AdminPrivateRoute />}>
+          <Route path='/create-post' element={<CreatePost />} />
+        </Route>
       </Routes>
       <FooterComponent />
     </BrowserRouter>
