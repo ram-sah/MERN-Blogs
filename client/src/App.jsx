@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp';
 import FooterComponent from './components/FooterComponent';
 import PrivateRoute from './components/PrivateRoute';
 import AdminPrivateRoute from './components/AdminPrivateRoute';
-import { CreatePost } from './pages/CreatePost';
+import CreatePost from './pages/CreatePost';
 
 const App = () => {
   return (
