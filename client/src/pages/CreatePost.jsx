@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,11 +11,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreatePost() {
   const [imageFile, setImageFile] = useState(null);
-  const [imageFileUploading, setImageFileUploading] = useState(false)
   const [imageFileUploadError, setImageFileUploadError] = useState(null)
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null)
   const [formData, setFormData] = useState({})
-  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+  const [updateImageSuccess, setUpdateImageSuccess] = useState(null);
   const [publishError, setPublishError] = useState(null)
   const navigate = useNavigate()
   // console.log(formData)
@@ -28,10 +27,10 @@ export default function CreatePost() {
       }
 
       if (formData.image) {
-        setUpdateUserSuccess('Image has already been uploaded')
+        setUpdateImageSuccess('Image has already been uploaded')
       }
 
-      setImageFileUploading(true);
+      // setImageFileUploading(true);
       setImageFileUploadError(null); // Clear previous upload error
       const storage = getStorage(app); // Get Firebase storage instance
       const fileName = new Date().getTime() + '-' + imageFile.name; // Generate unique filename
@@ -75,7 +74,7 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPublishError(null);
-    setUpdateUserSuccess(null);
+    setUpdateImageSuccess(null);
     try {
       const res = await fetch('/api/post/create', {
         method: 'POST',
@@ -152,7 +151,7 @@ export default function CreatePost() {
         {imageFileUploadError && (<Alert color="failure" className="mb-4"> {imageFileUploadError} </Alert>
         )}
 
-        {updateUserSuccess && (<Alert color="success" className="mb-4"> {updateUserSuccess} </Alert>
+        {updateImageSuccess && (<Alert color="success" className="mb-4"> {updateImageSuccess} </Alert>
         )}
 
         {/* To display image on page */}
