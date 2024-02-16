@@ -50,7 +50,6 @@ export const getposts = async (req, res, next) => {
     // Calculate the date one month ago
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
     // Add the condition for posts created after one month ago
     postQuery.createdAt = { $gte: oneMonthAgo };
 
