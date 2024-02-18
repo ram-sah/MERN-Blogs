@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react'
+import { Button, Modal, ModalBody, ModalHeader, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react'
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 const DashPosts = () => {
   const [userPosts, setUserPosts] = useState([]);
   const { currentUser } = useSelector((state) => state.user)
   const [showMore, setShowMore] = useState(true);
+  const [showModel, setShowModel] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState('')
   // console.log(userPosts)
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,7 +18,7 @@ const DashPosts = () => {
         const data = await res.json()
         if (res.ok) {
           setUserPosts(data.posts)
-          if(data.posts.length < 6){
+          if (data.posts.length < 6) {
             setShowMore(false)
           }
         }
@@ -29,20 +32,42 @@ const DashPosts = () => {
   }, [currentUser._id]);
 
   // handleShowMore button
-  const handleShowMore = async() => {
+  const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
       const res = await fetch(`api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
       const data = await res.json()
       if (res.ok) {
-        setUserPosts((prev)=> [...prev, ...data.posts]);
-        if(data.posts.length < 6){
+        setUserPosts((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 6) {
           setShowMore(false)
         }
       }
 
     } catch (error) {
-    console.log(error)
+      console.log(error)
+    }
+  }
+  //Delete posts
+  const handleDeletePost = async () => {
+    setShowModel(false);
+    try {
+const res = await fetch(
+  `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+ {
+  method: "DELETE",
+}
+);
+const data = await res.json();
+if(!res.ok){
+  console.log(data.message)
+}else {
+  setUserPosts((prev)=>
+  prev.filter((post) => post._id !== postIdToDelete)
+  )
+}
+    } catch (error) {
+console.log(error)
     }
   }
 
@@ -81,7 +106,12 @@ const DashPosts = () => {
                   </TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell>
-                    <span className='text-red-500 cursor-pointer hover:underline'>Delete </span>
+                    <span onClick={() => {
+                      setShowModel(true);
+                      setPostIdToDelete(post._id);
+                    }}
+                      className='text-red-500 cursor-pointer hover:underline'>
+                      Delete </span>
                   </TableCell>
                   <TableCell>
                     <Link to={`update-post/${post._id}`}>
@@ -94,12 +124,37 @@ const DashPosts = () => {
           </Table>
           {
             showMore && (
-              <button className='w-full text-teal-600 self-center py-6' onClick={handleShowMore}>
+              <button className='w-full text-teal-600 self-center py-8' onClick={handleShowMore}>
                 Show more...</button>
             )
           }
         </>
       ) : ("you have no post available")}
+
+      <Modal
+        show={showModel}
+        onClose={() => setShowModel(false)}
+        popup
+        size="md"
+      >
+        <ModalHeader />
+        <ModalBody>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="w-10 h-10 mx-auto mb-4 text-red-500 " />
+            <h2 className="mb-5 text-gray-500">
+              Are you sure want to delete this Post ?{" "}
+            </h2>
+            <div className="flex justify-center gap-5">
+              <Button color="failure" onClick={handleDeletePost}>
+                Yes, I'm sure !
+              </Button>
+              <Button color="gray" onClick={() => setShowModel(false)}>
+                No, cancel it.
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   )
 }
