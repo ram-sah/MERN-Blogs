@@ -18,12 +18,12 @@ const DashPosts = () => {
         const data = await res.json()
         if (res.ok) {
           setUserPosts(data.posts)
-          if (data.posts.length < 6) {
+          if (data.posts.length < 7) {
             setShowMore(false)
           }
         }
       } catch (error) {
-        console.log(error)
+        console.log(error.message)
       }
     }
     if (currentUser.isAdmin) {
@@ -39,13 +39,13 @@ const DashPosts = () => {
       const data = await res.json()
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 6) {
+        if (data.posts.length < 7 ) {
           setShowMore(false)
         }
       }
 
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
   //Delete posts
@@ -67,7 +67,7 @@ if(!res.ok){
   )
 }
     } catch (error) {
-console.log(error)
+console.log(error.message)
     }
   }
 
@@ -75,7 +75,7 @@ console.log(error)
     <div className=' mb-4 table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-500 dark:scrollbar-thumb-slate-700'>
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table hoverable className="shadow-md">
+          <Table hoverable className="shadow-md" >
             <TableHead>
               <TableHeadCell>Date Updated</TableHeadCell>
               <TableHeadCell>Post image</TableHeadCell>
@@ -87,7 +87,7 @@ console.log(error)
               </TableHeadCell>
             </TableHead>
             {userPosts.map((post) => (
-              <TableBody className='divide-y'>
+              <TableBody className='divide-y' key={post._id}>
                 <TableRow className='bg-white dark:bg-gray-800 dark:border-gray-700'>
                   <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString()}
@@ -114,7 +114,7 @@ console.log(error)
                       Delete </span>
                   </TableCell>
                   <TableCell>
-                    <Link to={`update-post/${post._id}`}>
+                    <Link to={`/update-post/${post._id}`}>
                       <span className='text-teal-500 hover:underline cursor-pointer'>Edit</span>
                     </Link>
                   </TableCell>
