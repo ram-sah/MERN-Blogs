@@ -39,7 +39,7 @@ const DashPosts = () => {
       const data = await res.json()
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 7 ) {
+        if (data.posts.length < 7) {
           setShowMore(false)
         }
       }
@@ -52,22 +52,22 @@ const DashPosts = () => {
   const handleDeletePost = async () => {
     setShowModel(false);
     try {
-const res = await fetch(
-  `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
- {
-  method: "DELETE",
-}
-);
-const data = await res.json();
-if(!res.ok){
-  console.log(data.message)
-}else {
-  setUserPosts((prev)=>
-  prev.filter((post) => post._id !== postIdToDelete)
-  )
-}
+      const res = await fetch(
+        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message)
+      } else {
+        setUserPosts((prev) =>
+          prev.filter((post) => post._id !== postIdToDelete)
+        )
+      }
     } catch (error) {
-console.log(error.message)
+      console.log(error.message)
     }
   }
 
@@ -124,7 +124,7 @@ console.log(error.message)
           </Table>
           {
             showMore && (
-              <button className='w-full text-teal-600 self-center py-8 dark:text-white' onClick={handleShowMore}>
+              <button className='w-full text-teal-600 self-center py-8 dark:text-white hover:underline' onClick={handleShowMore}>
                 Show more...</button>
             )
           }

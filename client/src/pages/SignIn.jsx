@@ -61,7 +61,7 @@ const SignIn = () => {
               </span>
               Blog
             </Link>
-            <div className="text-sm mt-6"><h1 className=" text-2xl text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
+            <div className="text-sm mt-6"><h1 className=" text-2xl dark:text-blue-300 text-blue-600 font-thin tracking-wider">Publish your passions, your way</h1>
               <p className="my-1">SignIn with your email or with google account.</p></div>
           </div>
           <div className="right flex-1">
@@ -87,7 +87,7 @@ const SignIn = () => {
                 <Label value="Your password" />
                 <TextInput
                   type="password"
-                  placeholder="*******"
+                  placeholder="***"
                   id="password" onChange={handleChange}
                 />
               </div>
@@ -103,7 +103,7 @@ const SignIn = () => {
             </form>
             <div className="my-2 text-sm gap-2 flex">
               <span >Don't have an account ?</span>
-              <Link to='/sign-up' className="text-blue-500"> Sign Up</Link>
+              <Link to='/sign-up' className="dark:text-blue-300 text-blue-600"> Sign Up</Link>
             </div>
           </div>
         </div>
