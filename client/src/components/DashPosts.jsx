@@ -124,7 +124,7 @@ console.log(error.message)
           </Table>
           {
             showMore && (
-              <button className='w-full text-teal-600 self-center py-8' onClick={handleShowMore}>
+              <button className='w-full text-teal-600 self-center py-8 dark:text-white' onClick={handleShowMore}>
                 Show more...</button>
             )
           }
