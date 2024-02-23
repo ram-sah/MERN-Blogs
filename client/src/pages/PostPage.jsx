@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Spinner, Button } from 'flowbite-react';
 import CallToAction from '../components/CallToAction';
+import CommentSection from '../components/CommentSection';
 
 const PostPage = () => {
   // Extract the value of 'postSlug' from the URL parameters
@@ -74,9 +75,10 @@ const PostPage = () => {
 
         </div>
         <div className='max-w-4xl mx-auto w-full'>
-    <CallToAction />
+          <CallToAction />
         </div>
       </main>
+      <CommentSection postId= {post._id} />
     </>
   );
 }

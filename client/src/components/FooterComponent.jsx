@@ -67,11 +67,11 @@ const FooterComponent = () => {
           <Footer.Copyright
             href="#"
             by="Ram's blog"
-            year={new Date().getFullYear()}
+            year={`2023 - ${new Date().getFullYear()}`}
           />
           <div className=" flex gap-5 mt-5 sm:mt-0 sm:justify-center">
             <Footer.Icon href="#" icon={BsFacebook} className="text-blue-500" />
-            <Footer.Icon href="#" icon={BsInstagram} className="text-red-500"/>
+            <Footer.Icon href="#" icon={BsInstagram} className="text-red-500" />
             <Footer.Icon href="#" icon={BsLinkedin} className="text-blue-500" />
             <Footer.Icon href="#" icon={BsTwitter} className="text-blue-400" />
             <Footer.Icon href="#" icon={BsGithub} className="text-black-300" />
