@@ -188,7 +188,20 @@ const DashProfile = () => {
   // Return JSX for rendering user profile form and UI
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="text-center my-8 font-bold text-2xl">Profile</h1>
+      {/* For Admin to create a post */}
+      <div className="flex flex-col md:flex-row items-center justify-between flex-1">
+        <h1 className="text-center my-8 font-bold text-2xl md:flex-1">Profile</h1>
+        {
+          currentUser && (
+            <Link to={'/create-post'}>
+              <Button type="submit"
+                gradientDuoTone="purpleToBlue"
+                className="w-auto mb-4 items-center md:-mr-40"
+                outline>Create a post </Button>
+            </Link>
+          )
+        }
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         {/* File input for selecting image */}
         <input
@@ -240,15 +253,15 @@ const DashProfile = () => {
 
         {updateUserSuccess && (
           <Alert color="success" className="mb-4">
-            {" "}
-            {updateUserSuccess}{" "}
+
+            {updateUserSuccess}
           </Alert>
         )}
 
         {updateUserError && (
           <Alert color="failure" className="mb-4">
-            {" "}
-            {updateUserError}{" "}
+
+            {updateUserError}
           </Alert>
         )}
 
@@ -269,7 +282,7 @@ const DashProfile = () => {
             <div className="text-center">
               <HiOutlineExclamationCircle className="w-10 h-10 mx-auto mb-4 text-red-500 " />
               <h2 className="mb-5 text-gray-500">
-                Are you sure want to delete your account ?{" "}
+                Are you sure want to delete your account ?
               </h2>
               <div className="flex justify-center gap-5">
                 <Button color="failure" onClick={handleDeleteUser}>
@@ -311,20 +324,8 @@ const DashProfile = () => {
           outline
           disabled={loading || imageFileUploading}
         >
-          {loading ? "Loading..." : "Update"}
+          {loading ? "Loading..." : "Update Profile"}
         </Button>
-
-        {/* For Admin to create-post */}
-        {
-          currentUser.isAdmin && (
-            <Link to={'/create-post'}>
-              <Button type="submit"
-                gradientDuoTone="purpleToBlue"
-                className="w-full"
-                outline>Create a post </Button>
-            </Link>
-          )
-        }
 
       </form>
       {/* Links for deleting account and signing out */}

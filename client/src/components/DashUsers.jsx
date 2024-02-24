@@ -94,10 +94,9 @@ export default function DashUsers() {
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>
                     {user.isAdmin ? (
-                      <FaCheck className='text-green-500' />
-                    ) : (
-                      <FaTimes className='text-red-500' />
-                    )}
+                      <FaCheck className='text-green-500 ' />
+                    ) : ('🚫')
+                    }
                   </Table.Cell>
                   <Table.Cell>
                     <span

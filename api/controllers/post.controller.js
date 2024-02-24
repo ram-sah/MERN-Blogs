@@ -2,10 +2,11 @@ import Post from "../models/post.model.js";
 // import User from "../models/user.model";
 import { errorHandler } from "../utils/error.js";
 
+//Create posts
 export const create = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, "You are not allowed to create a post"));
-  }
+  // if (!req.user.isAdmin) {
+  //   return next(errorHandler(403, "You are not allowed to create a post"));
+  // }
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, "Please provide all required fields"));
   }
