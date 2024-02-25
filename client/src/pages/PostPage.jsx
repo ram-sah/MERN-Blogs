@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Spinner, Button } from 'flowbite-react';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
+import PostCard from '../components/PostCard';
 
 const PostPage = () => {
   // Extract the value of 'postSlug' from the URL parameters
@@ -11,6 +12,7 @@ const PostPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [post, setPost] = useState(null)
+  const [recentPosts, setRecentPosts] = useState(null);
 
   // useEffect hook to fetch post data when 'postSlug' changes or component mounts
   useEffect(() => {
@@ -39,6 +41,20 @@ const PostPage = () => {
     fetchPost(); // Call the fetchPost function
   }, [postSlug]); // Depend on postSlug to trigger useEffect when it changes
 
+  useEffect(() => {
+    try {
+      const fetchRecentPosts = async () => {
+        const res = await fetch(`/api/post/getposts?limit=3`);
+        const data = await res.json();
+        if (res.ok) {
+          setRecentPosts(data.posts);
+        }
+      };
+      fetchRecentPosts();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
   // If loading state is true, render a Spinner component
   if (loading) {
     return (
@@ -50,36 +66,42 @@ const PostPage = () => {
 
   // If loading is false, render the post details
   return (
-    <>
-      <main className='p-3 flex flex-col max-w-4xl mx-auto min-h-screen'>
-        {/* Render post title */}
-        <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{post && post.title}</h1>
-        {/* Render a button with a link to search by post category */}
-        <Link to={`/search?category=${post && post.category}`} className='self-center mt-5'>
-          <Button size='xs' pill >{post && post.category}</Button>
-        </Link>
-        {/* Render post image */}
-        <img src={post && post.image} alt={post && post.title} className='mt-10 p-3 max-h-[600px] w-full object-cover' />
-        {/* Render post details */}
-        <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
-          {/* Render post creation date */}
-          <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-          {/* Render post reading time */}
-          <span className='italic'>
-            {/* Display "less than 1 Minute read" if post content length is less than or equal to 1000 characters, otherwise display reading time in minutes */}
-            {post && post.content.length <= 1000 ? ' less than 1 Minute read' : `${(post.content.length / 1000).toFixed(0)} Minutes read`}
-          </span>
-        </div>
-        {/* Render post content */}
-        <div className='p-3 max-w-4xl mx-auto w-full post-content' dangerouslySetInnerHTML={{ __html: post && post.content }}>
+    <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
+      {/* Render post title */}
+      <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{post && post.title}</h1>
+      {/* Render a button with a link to search by post category */}
+      <Link to={`/search?category=${post && post.category}`} className='self-center mt-5'>
+        <Button size='xs' pill >{post && post.category}</Button>
+      </Link>
+      {/* Render post image */}
+      <img src={post && post.image} alt={post && post.title} className='mt-10 p-3 max-h-[600px] w-full object-cover' />
+      {/* Render post details */}
+      <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+        {/* Render post creation date */}
+        <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+        {/* Render post reading time */}
+        <span className='italic'>
+          {/* Display "less than 1 Minute read" if post content length is less than or equal to 1000 characters, otherwise display reading time in minutes */}
+          {post && post.content.length <= 1000 ? ' less than 1 Minute read' : `${(post.content.length / 1000).toFixed(0)} Minutes read`}
+        </span>
+      </div>
+      {/* Render post content */}
+      <div className='p-3 max-w-4xl mx-auto w-full post-content' dangerouslySetInnerHTML={{ __html: post && post.content }}>
 
+      </div>
+      <div className='max-w-4xl mx-auto w-full'>
+        <CallToAction />
+      </div>
+      <CommentSection postId={post._id} />
+
+      <div className='flex flex-col justify-center items-center mb-5'>
+        <h1 className='text-xl mt-5'>Recent articles</h1>
+        <div className='flex flex-wrap lg:flex-nowrap gap-6 mt-5 justify-center'>
+          {recentPosts &&
+            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
         </div>
-        <div className='max-w-4xl mx-auto w-full'>
-          <CallToAction />
-        </div>
-      </main>
-      <CommentSection postId= {post._id} />
-    </>
+      </div>
+    </main>
   );
 }
 
