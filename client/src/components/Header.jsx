@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button, Dropdown, DropdownDivider, DropdownItem, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,7 +12,17 @@ const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
+  const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
   //Sign out user
   const handleSignOut = async () => {
 
@@ -31,6 +41,14 @@ const Header = () => {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   return (
     <>
       <Navbar className="sticky top-0 z-50 bg-white border-b-2 md:flex md:items-center md:justify-between">
@@ -43,12 +61,14 @@ const Header = () => {
           </span>
           Blog
         </Link>
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextInput
-            type="text"
-            placeholder="Search..."
+            type='text'
+            placeholder='Search...'
             rightIcon={AiOutlineSearch}
-            className="hidden lg:inline"
+            className='hidden lg:inline'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </form>
         <Button
@@ -72,7 +92,7 @@ const Header = () => {
               inline
               label={
                 <Avatar alt="user" img={currentUser.profilePicture} rounded
-                className="w-10 h-10 border-2 overflow-hidden rounded-full " />
+                  className="w-10 h-10 border-2 overflow-hidden rounded-full " />
               }
             >
               <Dropdown.Header>
