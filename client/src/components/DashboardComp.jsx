@@ -6,7 +6,7 @@ import {
     HiDocumentText,
     HiOutlineUserGroup,
 } from 'react-icons/hi';
-import { Button, Table } from 'flowbite-react';
+import { Button, Table, TableHead } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
 const DashboardComp = () => {
@@ -120,7 +120,7 @@ const DashboardComp = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
+            <div className='flex flex-wrap gap-2 py-3 mx-auto justify-center'>
                 <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
                     <div className='flex justify-between  p-3 text-sm font-semibold'>
                         <h1 className='text-center p-2'>Recent users</h1>
@@ -129,10 +129,10 @@ const DashboardComp = () => {
                         </Button>
                     </div>
                     <Table hoverable>
-                        <Table.Head>
+                        <TableHead>
                             <Table.HeadCell>User image</Table.HeadCell>
                             <Table.HeadCell>Username</Table.HeadCell>
-                        </Table.Head>
+                        </TableHead>
                         {users &&
                             users.map((user) => (
                                 <Table.Body key={user._id} className='divide-y'>
