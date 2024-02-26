@@ -1,0 +1,15 @@
+# This is a blogs app
+- User can sign-up to access in application using google account or with any email and password.
+- User can add their post when login the page.
+- This app has Admin and User. Admin has full access to control the other users.
+
+# MERN Technology used
+- Reactjs
+- ExpressJs
+- Redux
+- Nodejs
+- MongoDB
+- Tailwind
+
+# Application link
+- [Application Link](https://mern-blogs-0fe1.onrender.com/)
