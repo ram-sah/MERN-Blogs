@@ -66,7 +66,7 @@ const PostPage = () => {
 
   // If loading is false, render the post details
   return (
-    <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
+    <main className='p-3 flex flex-col max-w-4xl mx-auto min-h-screen'>
       {/* Render post title */}
       <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{post && post.title}</h1>
       {/* Render a button with a link to search by post category */}
