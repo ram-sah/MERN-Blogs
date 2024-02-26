@@ -8,7 +8,7 @@ const About = () => {
           <h1 className='text-3xl font font-semibold text-center my-7'>
             About Ram's Blogs!
           </h1>
-          <div className='text-md text-gray-500 flex flex-col gap-4 text-justify'>
+          <div className='text-md text-gray-500 dark:text-gray-300 flex flex-col gap-4 text-justify'>
             <p>
               At MyBlogs, we're dedicated to the world of web development and coding.
               Our platform is a hub for developers, designers, and tech enthusiasts—a place where

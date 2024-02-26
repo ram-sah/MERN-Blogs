@@ -70,11 +70,11 @@ const FooterComponent = () => {
             year={`2023 - ${new Date().getFullYear()}`}
           />
           <div className=" flex gap-5 mt-5 sm:mt-0 sm:justify-center">
-            <Footer.Icon href="#" icon={BsFacebook} className="text-blue-500" />
-            <Footer.Icon href="#" icon={BsInstagram} className="text-red-500" />
-            <Footer.Icon href="#" icon={BsLinkedin} className="text-blue-500" />
-            <Footer.Icon href="#" icon={BsTwitter} className="text-blue-400" />
-            <Footer.Icon href="#" icon={BsGithub} className="text-black-300" />
+            <Footer.Icon href="https://www.facebook.com" target="_blank" icon={BsFacebook} className="text-blue-500" />
+            <Footer.Icon href="https://www.instagram.com" target="_blank" icon={BsInstagram} className="text-red-500" />
+            <Footer.Icon href="https://www.linkedin.com" target="_blank" icon={BsLinkedin} className="text-blue-500" />
+            <Footer.Icon href="https://www.twitter.com" target="_blank" icon={BsTwitter} className="text-blue-400" />
+            <Footer.Icon href="https://www.github.com" target="_blank" icon={BsGithub} className="text-black-300" />
           </div>
         </div>
       </div>

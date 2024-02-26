@@ -19,7 +19,7 @@ const CallToAction = () => {
             </div>
             <div className="p-7 flex-1">
                 <a href='https://ram-sah.github.io/LinkedIn-Assessments' target='_blank' rel='noopener noreferrer'>
-                <img src="https://github.com/ram-sah/LinkedIn-Assessments/blob/master/NODE/images/Badge-nodejs.png?raw=true" className='rounded-tr-3xl rounded-bl-3xl bg-slate-400'/>
+                <img src="https://www.htmlpanda.com/blog/wp-content/uploads/2022/05/A-Guide-on-ReactJS-Web-Development-1.png" className='rounded-tr-3xl rounded-bl-3xl bg-slate-400'/>
                 </a>
             </div>
         </div>

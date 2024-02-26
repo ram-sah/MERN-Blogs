@@ -329,7 +329,7 @@ const DashProfile = () => {
 
       </form>
       {/* Links for deleting account and signing out */}
-      <div className="text-red-600 flex justify-between mt-5">
+      <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModel(true)} className="cursor-pointer">
           Delete Account
         </span>

@@ -18,7 +18,7 @@ const Home = () => {
     <div>
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
         <h1 className='text-3xl font-bold lg:text-6xl'>🌟 Welcome to MyBlogs! 🌟</h1>
-        <p className='text-gray-500 text-xs sm:text-sm'>
+        <p className='text-gray-500 dark:text-gray-300 text-xs sm:text-sm'>
           Take a moment to browse through our diverse collection of blogs on topics such as
           web development, software engineering and programming languages. Each one a unique
           journey waiting to be discovered. From personal reflections to insightful commentary,
@@ -28,12 +28,12 @@ const Home = () => {
         </p>
         <Link
           to='/search'
-          className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
+          className='text-xs sm:text-sm text-teal-500 dark:text-teal-300 font-bold hover:underline'
         >
           View all posts
         </Link>
       </div>
-      <div className='p-3 bg-blue-50 dark:bg-slate-700'>
+      <div className='p-3 bg-blue-50 dark:bg-slate-700 max-w-6xl mx-auto'>
         <CallToAction />
       </div>
 
@@ -48,7 +48,7 @@ const Home = () => {
             </div>
             <Link
               to={'/search'}
-              className='text-lg text-teal-500 hover:underline text-center'
+              className='text-lg text-teal-500 dark:text-teal-300 hover:underline text-center'
             >
               View all posts...
             </Link>
