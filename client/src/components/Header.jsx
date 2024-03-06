@@ -57,7 +57,7 @@ const Header = () => {
           className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold "
         >
           <span className="px-3 py-2 bg-gradient-to-r from-blue-500 via-purple-400 to-blue-400 rounded-lg text-white">
-            Ram's
+            OURS
           </span>
           Blog
         </Link>
@@ -71,12 +71,14 @@ const Header = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </form>
+        <Link to= '/search'>
         <Button
           className="w-12 h-10 lg:hidden"
           color="gray"
           pill>
           <AiOutlineSearch />
         </Button>
+        </Link>
         <div className="flex gap-2 md:order-2">
           <Button
             className=" w-12 h-10 hidden sm:inline"
@@ -96,13 +98,14 @@ const Header = () => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block font-bold text-center ">{currentUser.username}</span>
                 <span className="block text-sm font-medium truncate">
                   {currentUser.email}
                 </span>
               </Dropdown.Header>
               <Link to={"/dashboard?tab=profile"}>
-                <Dropdown.Item>Profile</Dropdown.Item>
+
+                <Dropdown.Item> {currentUser && currentUser.isAdmin ? "Profile" : "Edit Profile"}</Dropdown.Item>
                 <DropdownDivider />
                 <DropdownItem onClick={handleSignOut}>Sign out </DropdownItem>
               </Link>

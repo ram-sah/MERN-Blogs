@@ -191,16 +191,6 @@ const DashProfile = () => {
       {/* For Admin to create a post */}
       <div className="flex flex-col md:flex-row items-center justify-between flex-1">
         <h1 className="text-center my-8 font-bold text-2xl md:flex-1">Profile</h1>
-        {
-          currentUser && (
-            <Link to={'/create-post'}>
-              <Button type="submit"
-                gradientDuoTone="purpleToBlue"
-                className="w-auto mb-4 items-center md:-mr-40"
-                outline>Create a post </Button>
-            </Link>
-          )
-        }
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         {/* File input for selecting image */}

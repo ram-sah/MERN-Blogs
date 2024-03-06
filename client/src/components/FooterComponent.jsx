@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsLinkedin } from "react-icons/bs";
 const FooterComponent = () => {
   return (
-    <Footer container className="border border-t-4 border-blue-200">
+    <Footer container className="border border-t-4 border-blue-200 mt-10">
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">
           <div className="mt-5">
@@ -13,7 +13,7 @@ const FooterComponent = () => {
               className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold "
             >
               <span className="px-3 py-2 bg-gradient-to-r from-blue-500 via-purple-400 to-blue-400 rounded-lg text-white">
-                Ram's
+                Ours
               </span>
               Blog
             </Link>
@@ -30,7 +30,7 @@ const FooterComponent = () => {
                   GetHub
                 </Footer.Link>
                 <Footer.Link href="/about" rel="noopener noreferrer">
-                  Ram's Blog
+                  Ours Blog
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -63,13 +63,13 @@ const FooterComponent = () => {
           </div>
         </div>
         <Footer.Divider />
-        <div className="w-full sm:flex sm:items-center sm:justify-between ">
+        <div className="w-full sm:flex sm:items-center sm:justify-between text-center ">
           <Footer.Copyright
             href="#"
-            by="Ram's blog"
+            by="Ours Blog"
             year={`2023 - ${new Date().getFullYear()}`}
           />
-          <div className=" flex gap-5 mt-5 sm:mt-0 sm:justify-center">
+          <div className=" flex gap-5 mt-5 sm:mt-0 justify-center ">
             <Footer.Icon href="https://www.facebook.com" target="_blank" icon={BsFacebook} className="text-blue-500" />
             <Footer.Icon href="https://www.instagram.com" target="_blank" icon={BsInstagram} className="text-red-500" />
             <Footer.Icon href="https://www.linkedin.com" target="_blank" icon={BsLinkedin} className="text-blue-500" />

@@ -23,7 +23,7 @@ export default function UpdatePost() {
   const { postId } = useParams();
 
   const navigate = useNavigate();
-    const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     try {
@@ -179,7 +179,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type='submit' gradientDuoTone='purpleToPink'>
+        <Button type='submit' gradientDuoTone='purpleToBlue'>
           Update post
         </Button>
         {publishError && (

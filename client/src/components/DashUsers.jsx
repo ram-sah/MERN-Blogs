@@ -74,6 +74,7 @@ export default function DashUsers() {
               <Table.HeadCell>User image</Table.HeadCell>
               <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
+              <Table.HeadCell>userId</Table.HeadCell>
               <Table.HeadCell>Admin</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
@@ -92,6 +93,7 @@ export default function DashUsers() {
                   </Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>{user._id}</Table.Cell>
                   <Table.Cell>
                     {user.isAdmin ? (
                       <FaCheck className='text-green-500 ' />

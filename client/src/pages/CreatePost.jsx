@@ -70,7 +70,7 @@ export default function CreatePost() {
       console.log(error)
     }
   }
-
+  //Handle Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPublishError(null);
@@ -118,10 +118,19 @@ export default function CreatePost() {
               setFormData({ ...formData, category: e.target.value })}
           >
             <option value="uncategorized"> Select a category</option>
-            <option value="NodeJs"> Nodejs</option>
-            <option value="ReactJs"> ReactJs</option>
-            <option value="JavaScript"> JavaScript</option>
-            <option value="ExpressJs"> ExpressJs</option>
+            <option value="linkedin">LinkedIn Test</option>
+            <option value="nodejs"> Nodejs</option>
+            <option value="reactjs"> ReactJs</option>
+            <option value="javascript"> JavaScript</option>
+            <option value="expressjs"> ExpressJs</option>
+            <option value="css"> CSS</option>
+            <option value="html"> HTML</option>
+            <option value="mongodb"> MongoDb</option>
+            <option value="webdevelopment"> WebDevelopment</option>
+            <option value="economic"> Economic</option>
+            <option value="interview"> Interview</option>
+            <option value="math"> Math</option>
+            <option value="science"> Science</option>
           </Select>
         </div>
         <div className="flex gap-5 border-2 border-solid rounded border-violet-400 p-4 items-center justify-between">

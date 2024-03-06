@@ -3,7 +3,7 @@ import { Button } from 'flowbite-react';
 
 const CallToAction = () => {
     return (
-        <div className='flex flex-col sm:flex-row p-3 border border-purple-500 justify-center items-center rounded-tr-3xl rounded-bl-3xl text-center'>
+        <div className='flex flex-col sm:flex-row p-3 border border-purple-500 justify-center items-center rounded-tr-3xl rounded-bl-3xl text-center '>
             <div className="flex-1 justify-center flex flex-col">
                 <h2 className='text-2xl'>
                     Want to Practice Multiple Choice Questions?
