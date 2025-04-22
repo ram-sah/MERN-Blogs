@@ -1,4 +1,4 @@
-# Project: Ram's Blog app
+# 📝 E-Blog – A MERN Stack Blogging Platform:
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![LanguageCount](https://img.shields.io/github/languages/count/ram-sah/MERN-Blogs)](https://github.com/ram-sah/MERN-Blogs)
@@ -6,62 +6,78 @@
 
 ## Description:
 
-This is MERN-Blog mobile responsive application.
+E-Blog is a modern, mobile-responsive blogging application built with the MERN stack. Users can read, write, and manage blog posts after signing up via Google or email. The platform supports role-based access, where users can publish their content and admins can manage users, posts, and comments. Clean UI and real-time updates offer a smooth writing and reading experience.
 
-- Users can read blogs. Sign up to access the application using a Google account or by creating an account with any email and password.
-- Users can add their posts when they are logged into the platform.
-- This app provides both Admin and User functionalities. The Admin has full access to control the users account, posts and comments of all users.
+## 🚀 Uses:
 
-# MERN Technology used
+✍️ Write and publish blogs with an easy-to-use editor.
 
-- Reactjs
-- ExpressJs
-- Redux
-- Nodejs
-- MongoDB
-- firebase
-- Tailwind
-- flowbite-react
-- moment
-- bcryptjs
-# Application link
+🔐 Sign up or log in using Google or email/password.
 
-- [Application Link](https://mern-blogs-0fe1.onrender.com/)
+🧑‍💻 Create a personal blogging space after authentication.
 
-## Installation
+📚 Browse and read posts from other users.
 
-To install necessary dependencies, run the following command on your terminal:
+💬 Interact through comments (admin moderated).
 
+🔧 Admin can manage users, posts, and comments.
+
+📱 Fully mobile-responsive for smooth access on any device.
+
+## 🧰 Tech Stack:
+
+| Technologies                         | Libraries/Tools                   |
+|--------------------------------------|-----------------------------------|
+| 👉 Reactjs                           | 👉 Tailwind                        |
+| 👉 ExpressJs                         | 👉 flowbite-react                  |
+| 👉 Redux                             | 👉 moment                          |
+| 👉 Nodejs                            | 👉 bcryptjs                        |
+| 👉 MongoDB                           | 👉 firebase                        |
+
+
+## 🛠️ Installation & Setup:
+To install the necessary dependencies, run the following command in both the client and api folders:
 ```
 npm install
 ```
+After installing, start both the client and server by running:
+```
+npm run dev
+```
 
-## Usage
+⚙️ Make sure you are running the above command from both the client and api terminals separately.
 
-keep running both on terminal api and client folder.
-Run 'npm run dev' from Terminal
-
-## License
-
-This project is licensed under the MIT license.
-
-## Questions
+## Questions:
 
 [![Author: Ram](https://img.shields.io/badge/Author-RamSah-green.svg)](https://github.com/ram-sah)
 
-If you have any questions please contact us at :
-
-- mohan2036@gmail.com
+If you have any questions please contact us at :  mohan2036@gmail.com
 
 ## Repository : [MERN-Blogs](https://github.com/ram-sah/MERN-Blogs)
 
+# Application link:
+
+👉 Live: [Application Link](https://mern-blogs-0fe1.onrender.com/)
+
+👉 Demo: [Video Clip](https://drive.google.com/file/d/1tslxkDfNGccFw13NZ4vqtsRfJjN09ssi/view?usp=sharing)
+
+## Application Gif:
+
+![Image](https://github.com/user-attachments/assets/601f5860-8de8-4ec9-8276-3f8745506ffb)
+
 ## Application-Clips
+
+- Mobile Responsive
+
+<img src="https://github.com/user-attachments/assets/1fae2e82-ea10-4490-8726-5d87a8ac645f" width="400"/>
+
+## 
 
 - Admin Page
 
 <img width="1437" alt="blog1" src="https://github.com/ram-sah/MERN-Blogs/assets/64625123/ddcfba50-8654-4531-ac72-1c00746a1883">
 
--
+## 
 
 <img width="1434" alt="Screenshot 2024-03-06 at 10 38 28 AM" src="https://github.com/ram-sah/MERN-Blogs/assets/64625123/bf15a0d4-64e6-448a-84d6-dcf5d395114f">
 
