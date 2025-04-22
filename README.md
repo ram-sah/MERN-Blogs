@@ -59,7 +59,7 @@ If you have any questions please contact us at :  mohan2036@gmail.com
 
 👉 Live: [Application Link](https://mern-blogs-0fe1.onrender.com/)
 
-👉 Demo: [Video Clip](https://drive.google.com/file/d/1tslxkDfNGccFw13NZ4vqtsRfJjN09ssi/view?usp=sharing)
+👉 Demo: <a href="https://drive.google.com/file/d/1tslxkDfNGccFw13NZ4vqtsRfJjN09ssi/view?usp=sharing" target="_blank">🎥 Video Clip </a>
 
 ## Application Gif:
 
